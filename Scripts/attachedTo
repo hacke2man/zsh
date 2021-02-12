@@ -1,0 +1,8 @@
+#!/bin/bash
+ses=$(tmux ls | grep attached | grep "\S*: " -o | sed "s/://g; s/ //g")
+
+if [ "$ses" = "home" ] ; then
+  echo 'sup'
+fi
+
+

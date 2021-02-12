@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if tmux ls -F '#S' | grep -q home ; then
+  tmux attach -t 'home'
+else
+  tmux new-session -d 'ranger'
+  tmux rename-session 'home'
+  tmux attach-session
+fi
