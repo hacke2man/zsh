@@ -73,7 +73,6 @@ ZSH_THEME="sap"
 plugins=(
   git
   zsh-syntax-highlighting
-  zsh-autocomplete
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -103,16 +102,20 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias et="exit"
 alias clear="clear && pfetch"
-alias lg="lazygit"
 alias la="exa -la"
-alias tma="tmux attach -t"
 alias tls="tmux ls"
 alias rn="ranger"
+alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
+alias v="nvim"
+alias m="neomutt"
 
 export PATH=$PATH:/home/liam/.local/bin:/home/liam/Scripts
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export BROWSER=/usr/bin/brave
 export EDITOR=nvim
+
+bindkey -v
 
 pfetch
