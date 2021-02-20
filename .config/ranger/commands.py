@@ -96,4 +96,4 @@ class nvim(Command):
     def execute(self):
         from os.path import join, expanduser
         dirname = join(self.fm.thisdir.path, expanduser(self.rest(1)))
-        nvim = self.fm.execute_command("cd " + dirname + " && nvim")
+        nvim = self.fm.execute_command("tmux new-window nvim")
