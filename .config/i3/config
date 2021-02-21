@@ -179,9 +179,5 @@ bindsym $mod+r mode "resize"
 for_window [class=".*"] border pixel 0
 gaps inner 10
 
-<<<<<<< HEAD
-exec_always --no-startup-id feh --bg-fill /home/liam/Pics/wallpaper.*
-=======
 exec_always --no-startup-id feh --bg-fill /home/liam/Pics/wallpaper.jpg
->>>>>>> 77e9be14624f8505a8ef1b14d0be0b03a3b6b9a3
 exec_always --no-startup-id autotiling

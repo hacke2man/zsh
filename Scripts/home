@@ -3,7 +3,7 @@
 if tmux ls -F '#S' | grep -q home ; then
   tmux attach -t 'home'
 else
-  tmux new-session -d 'ranger'
+  tmux new-session -d
   tmux rename-session 'home'
   tmux attach-session
 fi

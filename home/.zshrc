@@ -108,7 +108,7 @@ alias la="exa -la"
 alias tls="tmux ls"
 alias rn="tmux new-session ranger"
 alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
-alias v="nvim"
+alias e="nvim"
 alias m="neomutt"
 
 export PATH=$PATH:/home/liam/.local/bin:/home/liam/Scripts
@@ -118,9 +118,18 @@ export EDITOR=nvim
 
 bindkey -v
 
-# xmodmap -e 'clear lock'
-# xmodmap -e 'keycode 9 = Caps_Lock'
-# xmodmap -e 'keycode 23 = Escape'
-# xmodmap -e 'keycode 66 = Tab'
+
+cdf() {
+  tempfzfpath=`fd --hidden -t d . | fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+
+  cd $tempfzfpath
+}
+
+
+ef() {
+  tempfzfpath=`ag --hidden --ignore .git -g ""| fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
+
+  nvim $tempfzfpath
+}
 
 pfetch
