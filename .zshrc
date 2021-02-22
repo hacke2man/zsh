@@ -104,12 +104,14 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias et="exit"
 alias clear="clear && pfetch"
-alias la="exa -la"
-alias tls="tmux ls"
+alias la="exa -la --group-directories-first"
+alias ls="ls --color --group-directories-first"
+alias tmls="tmux ls"
 alias rn="tmux new-session ranger"
 alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
 alias e="nvim"
 alias m="neomutt"
+alias battery="cat /sys/class/power_supply/BAT0/capacity"
 
 export PATH=$PATH:/home/liam/.local/bin:/home/liam/Scripts
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
@@ -125,11 +127,29 @@ cdf() {
   cd $tempfzfpath
 }
 
+tmf() {
+  tempfzfpath=`fd --hidden -t d . | fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+
+  tmux new-window -c $tempfzfpath
+}
+
 
 ef() {
   tempfzfpath=`ag --hidden --ignore .git -g ""| fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
 
   nvim $tempfzfpath
 }
+
+
+tmef() {
+  tempfzfpath=`ag --hidden --ignore .git -g ""| fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
+
+  tmux new-window nvim $tempfzfpath
+}
+
+xmodmap -e "clear lock"
+xmodmap -e "keycode 9 = Caps_Lock"
+xmodmap -e "keycode 23 = Escape"
+xmodmap -e "keycode 66 = Tab"
 
 pfetch
