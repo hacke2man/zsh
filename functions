@@ -1,0 +1,75 @@
+#!/bin/sh
+# Fuctions
+echo sup
+
+home(){
+  if tmux ls -F '#S' | grep -q home ; then
+    tmux attach -t 'home'
+  else
+    tmux new-session -d
+    tmux rename-session 'home'
+    tmux attach-session
+  fi
+}
+
+attachedToTmux() {
+  [ -z ${TMUX} ]
+}
+
+
+ef() {
+  tempfzfpath=`find . -type f | fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
+  if [ -z ${tempfzfpath} ]; then
+    echo exit no selection
+  else
+    echo $tempfzfpath
+    if attachedToTmux ; then
+      nvim $tempfzfpath
+    else
+      tmux new-window nvim $tempfzfpath
+    fi
+  fi
+}
+
+fe() {
+  tempfzfpath=`find . -type f | fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
+  if [ -z $1 ] ; then
+    echo $tempfzfpath
+  else
+    $1 $tempfzfpath
+  fi
+}
+
+fmf() {
+  tempfzfpath=`find . | fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+  if [ -z ${tempfzfpath} ]; then
+    echo exit no selection
+  else
+    echo $tempfzfpath
+    if attachedToTmux ; then
+      vifmrun --select $tempfzfpath
+    else
+      tmux new-window vifmrun --select $tempfzfpath
+    fi
+  fi
+}
+
+cdf() {
+  tempfzfpath=`find . -type d| fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+  echo $tempfzfpath
+  cd $tempfzfpath
+}
+
+tmf() {
+  tempfzfpath=`find . -type d| fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+  if [ -z ${tempfzfpath} ]; then
+    echo exit no selection
+  else
+    echo $tempfzfpath
+    if attachedToTmux ; then
+      tmux new-session -c $tempfzfpath
+    else
+      tmux new-window -c $tempfzfpath
+    fi
+  fi
+}

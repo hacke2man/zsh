@@ -1,27 +1,14 @@
-# Path to your oh-my-zsh installation.
-export ZSH="/home/liam/.oh-my-zsh"
 
-ZSH_THEME="sap"
+# PROMPT=$'%{$fg[green]%}┌[%{$fg_bold[white]%}%n%{$reset_color%}%{$fg[green]%}@%{$fg_bold[white]%}%m%{$reset_color%}%{$fg[green]%}] %{$(git_prompt_info)%}%(?,,%{$fg[green]%}[%{$fg_bold[white]%}%?%{$reset_color%}%{$fg[green]%}])
+# %{$fg[green]%}└[%{$fg_bold[white]%}%~%{$reset_color%}%{$fg[green]%}]>%{$reset_color%} '
+# PS2=$' %{$fg[green]%}|>%{$reset_color%} '
 
-
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-plugins=(
-  git
-  zsh-syntax-highlighting
-  zsh-vim-mode
-)
-
-source $ZSH/oh-my-zsh.sh
-
+# ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}[%{$fg_bold[white]%}"
+# ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}%{$fg[green]%}] "
+# ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[green]%}⚡%{$reset_color%}"
 # User configuration
+
+ZSH_THEME=""
 
 alias et="exit"
 alias clear="clear && pfetch"
@@ -49,5 +36,7 @@ export BAT_THEME=gruvbox
 # xmodmap -e "keycode 66 = Tab"
 
 
+echo sup
 _comp_option+=(globdots)
-source $HOME/.config/zsh/functions
+eval "$(starship init zsh)"
+source $HOME/.config/dotfiles/functions
