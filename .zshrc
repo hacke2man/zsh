@@ -34,41 +34,14 @@ alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
 alias e="nvim"
 alias m="neomutt"
 alias battery="cat /sys/class/power_supply/BAT0/capacity"
+alias vifm="vifmrun"
 
-export PATH=$PATH:$HOME/.local/bin:$HOME/.local/bin:/home/liam/Scripts
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-export BROWSER=/usr/bin/brave
+export FZF_DEFAULT_COMMAND='find . ""'
 export EDITOR=nvim
-export MANPAGER="sh -c 'col -b | bat -p -l man --style numbers'"
+export MANPAGER="sh -c 'col -b | bat -p -l man --style plain'"
 export BAT_THEME=gruvbox
-
-# Fuctions
-
-cdf() {
-  tempfzfpath=`fd --hidden -t d . | fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
-
-  cd $tempfzfpath
-}
-
-tmf() {
-  tempfzfpath=`fd --hidden -t d . | fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
-
-  tmux new-window -c $tempfzfpath
-}
-
-
-ef() {
-  tempfzfpath=`ag --hidden --ignore .git -g ""| fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
-
-  nvim $tempfzfpath
-}
-
-
-tmef() {
-  tempfzfpath=`ag --hidden --ignore .git -g ""| fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
-
-  tmux new-window nvim $tempfzfpath
-}
+# these are the defaults
 
 # xmodmap -e "clear lock"
 # xmodmap -e "keycode 9 = Caps_Lock"
@@ -77,4 +50,4 @@ tmef() {
 
 
 _comp_option+=(globdots)
-pfetch
+source $HOME/.config/zsh/functions

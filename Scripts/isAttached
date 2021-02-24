@@ -1,5 +1,0 @@
-#!/bin/sh
-
-if tmux ls | grep -q attached ; then
-  echo true
-fi
