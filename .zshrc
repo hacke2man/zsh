@@ -36,7 +36,6 @@ export BAT_THEME=gruvbox
 # xmodmap -e "keycode 66 = Tab"
 
 
-echo sup
 _comp_option+=(globdots)
 eval "$(starship init zsh)"
 source $HOME/.config/dotfiles/functions

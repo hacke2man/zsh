@@ -1,6 +1,5 @@
 #!/bin/sh
 # Fuctions
-echo sup
 
 home(){
   if tmux ls -F '#S' | grep -q home ; then
