@@ -1,6 +1,10 @@
 #!/bin/sh
 # Fuctions
 
+# lorem() {
+#   grep -m $1 "\S*\s" ~/.config/dotfiles/lorem | sed ':a;N;$!ba;s/\n//g'
+# }
+
 home(){
   if tmux ls -F '#S' | grep -q home ; then
     tmux attach -t 'home'
