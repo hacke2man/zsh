@@ -8,8 +8,6 @@
 # ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[green]%}⚡%{$reset_color%}"
 # User configuration
 
-ZSH_THEME=""
-
 alias et="exit"
 alias clear="clear && pfetch"
 alias la="exa -la --group-directories-first"
@@ -23,17 +21,10 @@ alias m="neomutt"
 alias battery="cat /sys/class/power_supply/BAT0/capacity"
 alias vifm="vifmrun"
 
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-export FZF_DEFAULT_COMMAND='find . ""'
-export EDITOR=nvim
-export MANPAGER="sh -c 'col -b | bat -p -l man --style plain'"
-export BAT_THEME=gruvbox
-# these are the defaults
-
-# xmodmap -e "clear lock"
-# xmodmap -e "keycode 9 = Caps_Lock"
-# xmodmap -e "keycode 23 = Escape"
-# xmodmap -e "keycode 66 = Tab"
+xmodmap -e "clear lock"
+xmodmap -e "keycode 9 = Caps_Lock"
+xmodmap -e "keycode 23 = Escape"
+xmodmap -e "keycode 66 = Tab"
 
 
 _comp_option+=(globdots)

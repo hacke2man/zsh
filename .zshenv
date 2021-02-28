@@ -10,4 +10,8 @@ export HISTFILE="$XDG_DATA_HOME"/zsh/history
 
 export BROWSER=/usr/bin/brave
 
-
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='find . ""'
+export EDITOR=nvim
+export MANPAGER="sh -c 'col -b | bat -p -l man --style plain'"
+export BAT_THEME=gruvbox
