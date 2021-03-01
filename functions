@@ -21,7 +21,7 @@ attachedToTmux() {
 
 
 ef() {
-  tempfzfpath=`find . -type f | fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
+  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else
@@ -35,7 +35,7 @@ ef() {
 }
 
 fe() {
-  tempfzfpath=`find . -type f | fzf --layout=reverse --preview 'bat --style numbers,changes --color=always --theme gruvbox {}| head -200'`
+  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
   if [ -z $1 ] ; then
     echo $tempfzfpath
   else
@@ -44,7 +44,7 @@ fe() {
 }
 
 fmf() {
-  tempfzfpath=`find . | fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else
@@ -58,13 +58,13 @@ fmf() {
 }
 
 cdf() {
-  tempfzfpath=`find . -type d| fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type d | fzf --layout=reverse --height=50%`
   echo $tempfzfpath
   cd $tempfzfpath
 }
 
 tmf() {
-  tempfzfpath=`find . -type d| fzf --layout=reverse --preview 'ls -a --group-directories-first --color {} | head -30 |tail -n +3'`
+  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type d | fzf --layout=reverse --height=50%`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else

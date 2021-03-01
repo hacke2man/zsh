@@ -1,0 +1,8 @@
+/.cache
+# /.local/lib
+# /.npm
+# /.cargo
+# /**/.git
+/**/node_modules
+# /**/net.*
+# /.config/BraveSoftware
