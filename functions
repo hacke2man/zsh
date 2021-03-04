@@ -21,7 +21,7 @@ attachedToTmux() {
 
 
 ef() {
-  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
+  tempfzfpath=`fd . --hidden --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else
@@ -35,7 +35,7 @@ ef() {
 }
 
 fe() {
-  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
+  tempfzfpath=`fd . --hidden --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
   if [ -z $1 ] ; then
     echo $tempfzfpath
   else
@@ -44,7 +44,7 @@ fe() {
 }
 
 fmf() {
-  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
+  tempfzfpath=`fd . --hidden --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else
@@ -58,13 +58,17 @@ fmf() {
 }
 
 cdf() {
-  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type d | fzf --layout=reverse --height=50%`
-  echo $tempfzfpath
-  cd $tempfzfpath
+  tempfzfpath=`fd . --hidden --ignore-file ~/.config/dotfiles/fdignore --type d | fzf --layout=reverse --height=50%`
+  if [ -z ${tempfzfpath} ]; then
+    echo exit no selection
+  else
+    echo $tempfzfpath
+    cd $tempfzfpath
+  fi
 }
 
 tmf() {
-  tempfzfpath=`fd . --ignore-file ~/.config/dotfiles/fdignore --type d | fzf --layout=reverse --height=50%`
+  tempfzfpath=`fd . --hidden --ignore-file ~/.config/dotfiles/fdignore --type d | fzf --layout=reverse --height=50%`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else
