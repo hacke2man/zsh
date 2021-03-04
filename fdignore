@@ -2,7 +2,11 @@
 # /.local/lib
 # /.npm
 # /.cargo
-# /**/.git
+/**/.git
+/**/*.jpg
+/**/*.xcf
+/**/*.png
+/**/*.db
 /**/node_modules
 # /**/net.*
 # /.config/BraveSoftware
