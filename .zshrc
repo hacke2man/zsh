@@ -11,22 +11,21 @@
 alias et="exit"
 alias clear="clear && pfetch"
 alias la="exa -la --group-directories-first"
-alias ls="ls --color --group-directories-first"
+alias ls="ls -vG --color --group-directories-first"
 alias tmls="tmux ls"
 alias rn="ranger"
 alias tmrn="tmux new-window ranger"
 alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
-alias e="nvim"
+alias e=$EDITOR
 alias m="neomutt"
 alias battery="cat /sys/class/power_supply/BAT0/capacity"
 alias vifm="vifmrun"
 
-xmodmap -e "clear lock"
-xmodmap -e "keycode 9 = Caps_Lock"
-xmodmap -e "keycode 23 = Escape"
-xmodmap -e "keycode 66 = Tab"
+# xmodmap -e "clear lock"
+# xmodmap -e "keycode 9 = Caps_Lock"
+# xmodmap -e "keycode 23 = Escape"
+# xmodmap -e "keycode 66 = Tab"
 
-
-_comp_option+=(globdots)
-eval "$(starship init zsh)"
 source $HOME/.config/dotfiles/functions
+source /usr/share/nvm/init-nvm.sh
+eval "$(starship init zsh)"
