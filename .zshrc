@@ -19,11 +19,7 @@ alias e=$EDITOR
 alias m="neomutt"
 alias vifm="vifmrun"
 
-# xmodmap -e "clear lock"
-# xmodmap -e "keycode 9 = Caps_Lock"
-# xmodmap -e "keycode 23 = Escape"
-# xmodmap -e "keycode 66 = Tab"
-
+source $HOME/.config/dotfiles/zshThisComp
 source $HOME/.config/dotfiles/functions
 source /usr/share/nvm/init-nvm.sh
 eval "$(starship init zsh)"
