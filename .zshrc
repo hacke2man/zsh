@@ -13,12 +13,10 @@ alias clear="clear && pfetch"
 alias la="exa -la --group-directories-first"
 alias ls="ls -vG --color --group-directories-first"
 alias tmls="tmux ls"
-alias rn="ranger"
 alias tmrn="tmux new-window ranger"
 alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
 alias e=$EDITOR
 alias m="neomutt"
-alias battery="cat /sys/class/power_supply/BAT0/capacity"
 alias vifm="vifmrun"
 
 # xmodmap -e "clear lock"
