@@ -13,7 +13,9 @@ export BROWSER=/usr/bin/brave
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--reverse --height=50%'
 export EDITOR=nvim
-export MANPAGER="nvim +Man! -c 'set scrolloff=999' -c 'normal M'"
+export MANPAGER="nvim  +Man! -c 'set scrolloff=999 | normal M'"
 export BAT_THEME=gruvbox-dark
 
 export STARSHIP_CONFIG=~/.config/dotfiles/starship.toml
+source $HOME/.config/dotfiles/zshThisComp
+source $HOME/.config/dotfiles/functions
