@@ -96,3 +96,23 @@ tmf() {
     fi
   fi
 }
+
+gf(){
+  if [ -z $1 ] ; then
+    echo "no input"
+  else
+    tempfzfpath=`ag . --hidden | rg ${1} | fzf`
+    if [ -n tempfzfpath ] ; then
+      echo $tempfzfpath
+    else
+      echo "no selection"
+    fi
+  fi
+}
+
+egf() {
+  grepOut=`gf $1`
+  pathTo=`echo $grepOut | cut -d: -f 1`
+  lineNum=`echo $grepOut | cut -d: -f 2`
+  nvim $pathTo +$lineNum
+}

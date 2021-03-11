@@ -17,5 +17,5 @@ export MANPAGER="nvim  +Man! -c 'set scrolloff=999 | normal M'"
 export BAT_THEME=gruvbox-dark
 
 export STARSHIP_CONFIG=~/.config/dotfiles/starship.toml
-source $HOME/.config/dotfiles/zshThisComp
+source $HOME/.config/dotfiles/zshThisComp 2> /dev/null
 source $HOME/.config/dotfiles/functions
