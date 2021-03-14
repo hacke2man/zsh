@@ -15,6 +15,7 @@ export FZF_DEFAULT_OPTS='--reverse --height=50%'
 export EDITOR=nvim
 export MANPAGER="nvim  +Man! -c 'set scrolloff=999 | normal M'"
 export BAT_THEME=gruvbox-dark
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#665c54"
 
 export STARSHIP_CONFIG=~/.config/dotfiles/starship.toml
 source $HOME/.config/dotfiles/zshThisComp 2> /dev/null
