@@ -6,7 +6,8 @@ export XDG_DATA_HOME=$HOME/.local/share
 
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 
-export HISTFILE="$XDG_DATA_HOME"/zsh/history
+export HISTFILE=$XDG_DATA_HOME/zsh/history
+export SAVEHIST=999999999
 
 export BROWSER=/usr/bin/brave
 
@@ -19,4 +20,3 @@ export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#665c54"
 
 export STARSHIP_CONFIG=~/.config/dotfiles/starship.toml
 source $HOME/.config/dotfiles/zshThisComp 2> /dev/null
-source $HOME/.config/dotfiles/functions
