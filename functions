@@ -1,6 +1,14 @@
 #!/bin/sh
 # Fuctions
 
+colorOnce(){
+  # colors:  reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, and white = 37
+  echo -en "\e[1;${1}m"
+  cat -
+  echo -en "\e[0m"
+}
+
+
 battery() {
   supply=`cat /sys/class/power_supply/BAT0/capacity`
   if grep Charging -q /sys/class/power_supply/BAT0/status ; then
