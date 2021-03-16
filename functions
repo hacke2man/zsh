@@ -8,6 +8,12 @@ colorOnce(){
   echo -en "\e[0m"
 }
 
+las() {
+  lsResult=`ls -lhAF $1 | sed "1 d; s/^\S* //; s/\s*[0-9]\+//; s/ liam//; s/ [A-Z].*:[0-9][0-9]//; /\// d"`
+
+  du -hd 1 | sed "/\.$/ d; s/\s\.\// /; /^\S\S\S / s/^/ /; s/^/ /" | colorOnce 34
+  echo $lsResult
+}
 
 battery() {
   supply=`cat /sys/class/power_supply/BAT0/capacity`
@@ -19,7 +25,7 @@ battery() {
 }
 
 home(){
-  if tmux ls -F '#S' | grep -q home ; then
+  if tmux ls | grep -q home ; then
     tmux attach -t 'home'
   else
     tmux new-session -d
