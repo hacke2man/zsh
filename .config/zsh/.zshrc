@@ -7,14 +7,15 @@ alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"
 alias e=$EDITOR
 alias m="neomutt"
 alias vifm="vifmrun"
-alias sourcefunc="source ${HOME}/.config/dotfiles/functions"
+alias sourcefunc="source ${HOME}/.config/zsh/functions"
+alias config='/usr/bin/git --git-dir=$HOME/.config/dotfiles.git/ --work-tree=$HOME'
 
-source $HOME/.config/dotfiles/functions
+source $HOME/.config/zsh/functions
 
 autoload -U compinit
 compinit
 
-source $HOME/.config/dotfiles/antigen.zsh
+source $HOME/.config/zsh/antigen.zsh
 antigen bundle jeffreytse/zsh-vi-mode
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
