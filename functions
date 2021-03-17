@@ -1,6 +1,18 @@
 #!/bin/sh
 # Fuctions
 
+checkGit() {
+  fd . $HOME --hidden | grep "\.git/config$" |
+    xargs grep "r1ri" | sed "s/\.git.*/.git/" |
+    while read line
+    do
+      workArea=`echo $line | sed "s/\/\.git//"`
+      echo $workArea | grep -o "[^/]\+$" | colorOnce 35
+      git --git-dir=$line --work-tree=$workArea status -b -s
+      echo
+    done
+}
+
 colorOnce(){
   # colors:  reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, and white = 37
   echo -en "\e[1;${1}m"
@@ -54,7 +66,7 @@ ef() {
 }
 
 fe() {
-  tempfzfpath=`fd . --hidden --ignore-file ~/.config/dotfiles/fdignore --type f | fzf --layout=reverse --height=50%`
+  tempfzfpath=`fd . --hidden --type f | fzf --layout=reverse --height=50%`
   if [ -z $1 ] ; then
     echo $tempfzfpath
   else
