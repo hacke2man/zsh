@@ -3,7 +3,7 @@
 
 checkGit() {
   fd . $HOME --hidden | grep "\.git/config$" |
-    xargs grep "r1ri" | sed "s/\.git.*/.git/" |
+    xargs grep "r1ri" | sed "/r1ri\/dotfiles/ d"| sed "s/\.git.*/.git/" |
     while read line
     do
       workArea=`echo $line | sed "s/\/\.git//"`
@@ -12,6 +12,7 @@ checkGit() {
       echo
     done
 }
+te() {git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME status -b -s}
 
 colorOnce(){
   # colors:  reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, and white = 37
