@@ -1,3 +1,4 @@
+export ZDOTDIR=$HOME/.config/zsh
 export PATH=$PATH:$HOME/.local/bin:$HOME/.local/bin:$HOME/.config/dotfiles/Scripts
 
 export XDG_CONFIG_HOME=$HOME/.config
