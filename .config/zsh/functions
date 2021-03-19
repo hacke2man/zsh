@@ -55,9 +55,19 @@ attachedToTmux() {
   [ -z ${TMUX} ]
 }
 
+ff() {
+  tempfzfpath=`rg . -l --hidden --ignore-file $HOME/.rgignore | fzf`
+  if [ -n "$tempfzfpath" ]; then
+    echo $tempfzfpath
+  fi
+}
+
+fDir() {
+  tempfzfpath=`fd . --hidden --ignore-file ~/.config/zsh/fdignore --type d | fzf --layout=reverse --height=50%`
+}
 
 ef() {
-  tempfzfpath=`fd . --hidden --ignore-file ~/.config/zsh/fdignore --type f | fzf --layout=reverse --height=50%`
+  tempfzfpath=`ff`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else
@@ -132,15 +142,13 @@ fs(){
   tempfzfpath=`rg . -n --hidden --ignore-file $HOME/.rgignore | fzf`
   if [ -n "$tempfzfpath" ] ; then
     echo $tempfzfpath
-  else
-    tempfzfpath=""
   fi
 }
 
 efs() {
   tempfzfpath=`fs`
-  echo $tempfzfpath
   if  [ -n "$tempfzfpath" ]; then
+    echo $tempfzfpath
     $EDITOR `echo $tempfzfpath | cut -d: -f1` +`echo $tempfzfpath | cut -d: -f2`
   else
     echo no selection
