@@ -128,22 +128,21 @@ tmf() {
   fi
 }
 
-gf(){
-  if [ -z $1 ] ; then
-    echo "no input"
+fs(){
+  tempfzfpath=`rg . -n --hidden --ignore-file $HOME/.rgignore | fzf`
+  if [ -n "$tempfzfpath" ] ; then
+    echo $tempfzfpath
   else
-    tempfzfpath=`ag . --hidden | rg ${1} | fzf`
-    if [ -n tempfzfpath ] ; then
-      echo $tempfzfpath
-    else
-      echo "no selection"
-    fi
+    tempfzfpath=""
   fi
 }
 
-egf() {
-  grepOut=`gf $1`
-  pathTo=`echo $grepOut | cut -d: -f 1`
-  lineNum=`echo $grepOut | cut -d: -f 2`
-  nvim $pathTo +$lineNum
+efs() {
+  tempfzfpath=`fs`
+  echo $tempfzfpath
+  if  [ -n "$tempfzfpath" ]; then
+    $EDITOR `echo $tempfzfpath | cut -d: -f1` +`echo $tempfzfpath | cut -d: -f2`
+  else
+    echo no selection
+  fi
 }
