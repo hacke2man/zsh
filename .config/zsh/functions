@@ -89,20 +89,6 @@ fe() {
   fi
 }
 
-fmf() {
-  tempfzfpath=`fd . --hidden --ignore-file ~/.config/zsh/fdignore --type f | fzf --layout=reverse --height=50%`
-  if [ -z ${tempfzfpath} ]; then
-    echo exit no selection
-  else
-    echo $tempfzfpath
-    if attachedToTmux ; then
-      vifmrun --select $tempfzfpath
-    else
-      tmux new-window vifmrun --select $tempfzfpath
-    fi
-  fi
-}
-
 cdf() {
   tempfzfpath=`fd . --hidden --ignore-file ~/.config/zsh/fdignore --type d | fzf --layout=reverse --height=50%`
   if [ -z ${tempfzfpath} ]; then
