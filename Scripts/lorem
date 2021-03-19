@@ -1,3 +1,0 @@
-#!/bin/sh
-
-grep -m $1 "\S*\s" ~/.config/dotfiles/lorem | sed ':a;N;$!ba;s/\n//g'

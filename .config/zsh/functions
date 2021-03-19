@@ -12,17 +12,10 @@ checkGit() {
         workArea=`echo $line | sed "s/\/\.git//"`
       fi
 
-      echo $workArea | grep -o "[^/]\+$" | colorOnce 35
+      echo $workArea | grep -o "[^/]\+$" | $HOME/Scripts/colorOnce 35
       git --git-dir=$line --work-tree=$workArea status -b -s
       echo
     done
-}
-
-colorOnce(){
-  # colors:  reset = 0, black = 30, red = 31, green = 32, yellow = 33, blue = 34, magenta = 35, cyan = 36, and white = 37
-  echo -en "\e[1;${1}m"
-  cat -
-  echo -en "\e[0m"
 }
 
 las() {
@@ -66,7 +59,7 @@ fDir() {
 }
 
 fs(){
-  rg . -n --hidden --ignore-file $HOME/.rgignore | fzf
+  rg . -n --ignore-file $HOME/.rgignore | fzf
 }
 
 ef() {
@@ -131,7 +124,7 @@ efs() {
   tempfzfpath=`fs`
   if  [ -n "$tempfzfpath" ]; then
     echo $tempfzfpath
-    $EDITOR `echo $tempfzfpath | cut -d: -f1` + `echo $tempfzfpath | cut -d: -f2`
+    $EDITOR `echo $tempfzfpath | cut -d: -f1` +`echo $tempfzfpath | cut -d: -f2`
   else
     echo no selection
   fi
