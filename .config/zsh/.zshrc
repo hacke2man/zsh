@@ -37,7 +37,17 @@ setGitInfo() {
 └"
     fi
 
-    else
+  elif [[ "$PWD" == "$HOME" ]] ; then
+      gitInfo_unstaged=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME status -s | grep "^.\S" -q && echo \!`
+      gitInfo_staged=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME status -s | grep "^\S." -q && echo \+`
+      gitInfo_stash=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME stash list | grep "\S*" -q && echo $`
+      gitInfo_unpushed=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME status | grep -q "ahead" && echo \^`
+      gitInfo_flags=${gitInfo_staged}${gitInfo_unstaged}${gitInfo_stash}${gitInfo_unpushed}
+      if [ -n "${gitInfo_flags}" ] ; then
+        gitInfo="%F{238}% ┌[%F{red}% ${gitInfo_flags}%F{238}% ]
+└"
+      fi
+  else
       gitInfo=""
   fi
 }
