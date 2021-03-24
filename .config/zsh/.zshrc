@@ -8,7 +8,7 @@ alias e=$EDITOR
 alias m="neomutt"
 alias vifm="vifmrun"
 alias sourcefunc="source ${HOME}/.config/zsh/functions"
-alias config='/usr/bin/git --git-dir=$HOME/.config/dotfiles.git/ --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.git/ --work-tree=$HOME'
 
 source $HOME/.config/zsh/functions
 
@@ -23,11 +23,11 @@ antigen apply
 
 setGitInfo() {
   if [ -d .git ] ; then
-    gitInfo_branch=`git branch | grep \* | cut -d" " -f2`
-    gitInfo_unstaged=`git status -s | grep "^.\S" -q && echo \!`
-    gitInfo_staged=`git status -s | grep "^\S." -q && echo \+`
-    gitInfo_stash=`git stash list | grep "\S*" -q && echo $`
-    gitInfo_unpushed=`git status | grep -q "ahead" && echo \^`
+    gitInfo_branch=`git --git-dir=$PWD/.git --work-tree=$PWD branch | grep \* | cut -d" " -f2`
+    gitInfo_unstaged=`git --git-dir=$PWD/.git --work-tree=$PWD status -s | grep "^.\S" -q && echo \!`
+    gitInfo_staged=`git --git-dir=$PWD/.git --work-tree=$PWD status -s | grep "^\S." -q && echo \+`
+    gitInfo_stash=`git --git-dir=$PWD/.git --work-tree=$PWD stash list | grep "\S*" -q && echo $`
+    gitInfo_unpushed=`git --git-dir=$PWD/.git --work-tree=$PWD status | grep -q "ahead" && echo \^`
     gitInfo_flags=${gitInfo_staged}${gitInfo_unstaged}${gitInfo_stash}${gitInfo_unpushed}
     if [ "${gitInfo_flags}" = "" ] ; then
       gitInfo="%F{238}% ┌[%F{magenta}% ${gitInfo_branch}%F{238}% ]
@@ -37,16 +37,6 @@ setGitInfo() {
 └"
     fi
 
-  elif [[ "$PWD" == "$HOME" ]] ; then
-      gitInfo_unstaged=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME status -s | grep "^.\S" -q && echo \!`
-      gitInfo_staged=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME status -s | grep "^\S." -q && echo \+`
-      gitInfo_stash=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME stash list | grep "\S*" -q && echo $`
-      gitInfo_unpushed=`git --git-dir=$HOME/.config/dotfiles.git --work-tree=$HOME status | grep -q "ahead" && echo \^`
-      gitInfo_flags=${gitInfo_staged}${gitInfo_unstaged}${gitInfo_stash}${gitInfo_unpushed}
-      if [ -n "${gitInfo_flags}" ] ; then
-        gitInfo="%F{238}% ┌[%F{red}% ${gitInfo_flags}%F{238}% ]
-└"
-      fi
   else
       gitInfo=""
   fi
