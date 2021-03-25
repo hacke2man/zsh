@@ -1,6 +1,15 @@
 #!/bin/sh
 # Fuctions
 
+his() {
+  tempfzfcommand=`cat ~/.local/share/zsh/history | fzf`
+  if [ -n "$tempfzfcommand" ]; then
+    eval $tempfzfcommand
+  else
+    echo no selection
+  fi
+}
+
 checkGit() {
   fd . $HOME --hidden --exclude .cache | grep "\.git/config$" |
     xargs grep "r1ri" -m 1 | sed "s/\.git.*/.git/" |

@@ -16,9 +16,9 @@ autoload -U compinit
 compinit
 
 source $HOME/.config/zsh/antigen.zsh
-antigen bundle jeffreytse/zsh-vi-mode
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle jeffreytse/zsh-vi-mode
 antigen apply
 
 setGitInfo() {
