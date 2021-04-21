@@ -20,6 +20,7 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle jeffreytse/zsh-vi-mode
 antigen apply
+ZVM_CURSOR_STYLE_ENABLED=false
 
 setGitInfo() {
   if [ -d .git ] ; then

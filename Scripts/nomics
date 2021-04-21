@@ -1,6 +1,7 @@
 #!/bin/sh
-curl "https://api.nomics.com/v1/currencies/ticker?key=8bd2145d2ab3042889af6de28e2923aa&convert=CAD&status=active&page=1&per-page=1000&sort=rank&interval=1h" | jq . |
-  sed "/logo\|status\|currency\|symbol\|num\|first\|rank\|date\|market\|circulating_supply\|max/ d;
-  /1h/, +8 d; /high_time/ s/,//" > prices.json
+# curl "https://api.nomics.com/v1/currencies/ticker?key=8bd2145d2ab3042889af6de28e2923aa&convert=CAD&status=active&page=1&per-page=1000&sort=rank&interval=1h" | jq . |
+  # sed "/logo\|status\|currency\|symbol\|num\|first\|rank\|date\|market\|circulating_supply\|max/ d;
+  # /1h/, +8 d; /high_time/ s/,//" > prices.json
+curl "https://api.nomics.com/v1/currencies/ticker?key=8bd2145d2ab3042889af6de28e2923aa&convert=CAD&status=active&page=1&per-page=1000&sort=rank&interval=1h" | jq . > prices.json
 
  nvim ~/prices.json
