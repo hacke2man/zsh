@@ -10,6 +10,7 @@ hi ColorColumn ctermbg=darkgray
 set scrolloff=8
 set sidescrolloff=10
 set signcolumn=yes
+au TextYankPost * silent! lua vim.highlight.on_yank()
 
 set autoindent
 set expandtab
@@ -32,6 +33,8 @@ set splitright
 set noswapfile
 set visualbell
 set cursorline
+set undofile
+set undodir=/home/liam/.cache/vimundo
 " complete
 " completeopt
 " fileformats

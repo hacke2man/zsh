@@ -17,5 +17,6 @@ source ~/.config/nvim/plugin_configs/undotree.vim
 source ~/.config/nvim/plugin_configs/laf.vim
 source ~/.config/nvim/plugin_configs/telescope.vim
 
+autocmd BufReadPost,FileReadPost *.vs setfiletype glsl
 " functions
 " source ~/.config/nvim/functions/r1ri_foldtext.vim

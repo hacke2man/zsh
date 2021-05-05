@@ -1,5 +1,9 @@
 " base nvim mappings
 
+"unmaps
+nnoremap Q <nop>
+
+"helper func
 func Eatchar(pat)
    let c = nr2char(getchar(0))
    return (c =~ a:pat) ? '' : c
@@ -7,13 +11,14 @@ endfunc
 
 " abbrev
 cnoreabbrev soi source ~/.config/nvim/init.vim
+cnoreabbrev run !./a.out
 cnoreabbrev e. e ./
 cnoreabbrev ee e ./**/<c-r>=Eatchar('\s')<Return>
 
 " Y now yanks to the end of the line
 nnoremap Y y$
-" yank entire file file. FIXME: this does not work on the first line of a file
-nnoremap yaa ggyG<c-o>
+" yank entire file file.
+nnoremap yaa :%y<Return>
 
 " V selects to the end of a end
 nnoremap V v$h
@@ -45,7 +50,13 @@ nnoremap <leader>w :write<Return>
 nnoremap <leader>sr :%s/\v<c-r>=expand("<cword>")<Return>/
 nnoremap <leader>dic :Dict <c-r>=expand("<cword>")<Return><Return>
 nnoremap <leader>n :noh<Return>
-nnoremap <leader>q :cal Quit()<Return>
+nnoremap <leader>q :call Quit()<Return>
+nnoremap <leader>mr :call Mun()<Return>
+
+function Mun()
+    make
+    !./a.out
+endfunction
 
 function Quit()
     let bufNum=len(filter(range(1, bufnr('$')), 'buflisted(v:val)'))
@@ -55,4 +66,3 @@ function Quit()
         bd
     endif
 endfunction
-au TextYankPost * silent! lua vim.highlight.on_yank()

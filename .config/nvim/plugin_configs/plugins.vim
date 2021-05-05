@@ -26,7 +26,7 @@ let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-vimlsp',
     Plug 'itchyny/lightline.vim'
     Plug 'mhinz/vim-signify'
     Plug 'mhinz/vim-startify'
-    Plug 'ryanoasis/vim-devicons'
+    " Plug 'ryanoasis/vim-devicons'
     Plug 'sheerun/vim-polyglot'
     Plug 'nathanaelkane/vim-indent-guides'
 
