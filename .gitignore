@@ -1,0 +1,6 @@
+/.cache
+/.local
+/.antigen
+/.npm
+/**/.git
+/.cargo

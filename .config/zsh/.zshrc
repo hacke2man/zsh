@@ -10,6 +10,7 @@ alias vifm="vifmrun"
 alias sourcefunc="source ${HOME}/.config/zsh/functions"
 alias config='/usr/bin/git --git-dir=$HOME/.git/ --work-tree=$HOME'
 alias dmenu="dmenu -fn iosevka -nb #282828 -nf #d5c4a1 -sb #fabd2f -sf #ebdbb2"
+alias website="ssh -i ~/.local/share/ssh/id_rsa root@pop-stack.org"
 source $HOME/.config/zsh/functions
 
 autoload -U compinit

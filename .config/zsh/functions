@@ -59,11 +59,17 @@ attachedToTmux() {
 }
 
 ff() {
-  rg . -l --hidden --ignore-file $HOME/.rgignore | fzf
+  if [ -n "${1}" ]; then
+    tempPath="${1}"
+  else
+    tempPath="."
+  fi
+
+  rg . -l --hidden $tempPath| fzf
 }
 
 fDir() {
-  fd . --hidden --ignore-file ~/.config/zsh/fdignore --type d |
+  fd . --hidden --ignore-file ~/.config/zsh/fdignore --type d --base-directory ~/ |
     fzf --layout=reverse --height=50%
 }
 
@@ -72,7 +78,13 @@ fs(){
 }
 
 ef() {
-  tempfzfpath=`ff`
+  if [ -n "${1}" ]; then
+    argPath="${1}"
+  else
+    argPath="."
+  fi
+
+  tempfzfpath=`ff $argPath`
   if [ -z ${tempfzfpath} ]; then
     echo exit no selection
   else
@@ -98,7 +110,7 @@ cdf() {
   tempfzfpath=`fDir`
   if [ -n "$tempfzfpath" ]; then
     echo $tempfzfpath
-    cd $tempfzfpath
+    cd $HOME/$tempfzfpath
   else
     echo exit no selection
   fi
