@@ -12,6 +12,7 @@ endfunc
 " abbrev
 cnoreabbrev soi source ~/.config/nvim/init.vim
 cnoreabbrev run !./a.out
+cnoreabbrev ein e ~/.config/nvim/init.vim
 cnoreabbrev e. e ./
 cnoreabbrev ee e ./**/<c-r>=Eatchar('\s')<Return>
 
@@ -52,10 +53,10 @@ nnoremap <leader>dic :Dict <c-r>=expand("<cword>")<Return><Return>
 nnoremap <leader>n :noh<Return>
 nnoremap <leader>q :call Quit()<Return>
 nnoremap <leader>mr :call Mun()<Return>
+nnoremap <leader>ee :edit ./**/
 
 function Mun()
-    make
-    !./a.out
+    !make && !./a.out
 endfunction
 
 function Quit()

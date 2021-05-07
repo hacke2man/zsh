@@ -29,6 +29,7 @@ let g:coc_global_extensions = ['coc-json', 'coc-tsserver', 'coc-vimlsp',
     " Plug 'ryanoasis/vim-devicons'
     Plug 'sheerun/vim-polyglot'
     Plug 'nathanaelkane/vim-indent-guides'
+    Plug 'https://github.com/vim-scripts/mom.vim'
 
 " movement
     Plug 'unblevable/quick-scope'

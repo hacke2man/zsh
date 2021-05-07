@@ -19,3 +19,4 @@ export BAT_THEME=gruvbox-dark
 
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export BROWSER=/usr/bin/brave
+source /usr/share/nvm/init-nvm.sh
