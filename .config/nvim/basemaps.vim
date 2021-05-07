@@ -56,7 +56,7 @@ nnoremap <leader>mr :call Mun()<Return>
 nnoremap <leader>ee :edit ./**/
 
 function Mun()
-    !make && !./a.out
+    !make && ./a.out
 endfunction
 
 function Quit()
