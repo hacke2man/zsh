@@ -1,6 +1,9 @@
 #!/bin/sh
 # Fuctions
 
+# git() {
+# }
+
 his() {
   tempfzfcommand=`cat ~/.local/share/zsh/history | fzf`
   if [ -n "$tempfzfcommand" ]; then
