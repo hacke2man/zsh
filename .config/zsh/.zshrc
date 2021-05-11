@@ -23,11 +23,11 @@ antigen apply
 ZVM_CURSOR_STYLE_ENABLED=false
 
 setGitInfo() {
-  if [ -f .git ] ; then
+  if [ -f .git ]; then
     export GIT_WORK_TREE=$PWD
     export GIT_DIR=`cat .git | cut -d' ' -f2`
     gdir=true
-  elif [ -d .git ] ; then
+  elif [ -d .git ]; then
     export GIT_WORK_TREE=$PWD
     export GIT_DIR="$PWD/.git"
     gdir=true
@@ -37,19 +37,14 @@ setGitInfo() {
     unset gdir
   fi
 
-  if [ -n "$gdir" ] ; then
-    # gitInfo_branch=`git --git-dir=$promptGDir --work-tree=$PWD branch | grep \* | cut -d" " -f2`
-    # gitInfo_unstaged=`git --git-dir=$promptGDir --work-tree=$PWD status -s | grep "^.\S" -q && echo \!`
-    # gitInfo_staged=`git --git-dir=$promptGDir --work-tree=$PWD status -s | grep "^\S." -q && echo \+`
-    # gitInfo_stash=`git --git-dir=$promptGDir --work-tree=$PWD stash list | grep "\S*" -q && echo $`
-    # gitInfo_unpushed=`git --git-dir=$promptGDir --work-tree=$PWD status | grep -q "ahead" && echo \^`
-    gitInfo_branch=`git  branch | grep \* | cut -d" " -f2`
-    gitInfo_unstaged=`git  status -s | grep "^.\S" -q && echo \!`
-    gitInfo_staged=`git  status -s | grep "^\S." -q && echo \+`
-    gitInfo_stash=`git  stash list | grep "\S*" -q && echo $`
-    gitInfo_unpushed=`git  status | grep -q "ahead" && echo \^`
+  if [ -n "$gdir" ]; then
+    gitInfo_branch=`git branch | grep \* | cut -d" " -f2`
+    gitInfo_unstaged=`git status -s | grep "^.\S" -q && echo \!`
+    gitInfo_staged=`git status -s | grep "^\S." -q && echo \+`
+    gitInfo_stash=`git stash list | grep "\S*" -q && echo $`
+    gitInfo_unpushed=`git status | grep -q "ahead" && echo \^`
     gitInfo_flags=${gitInfo_staged}${gitInfo_unstaged}${gitInfo_stash}${gitInfo_unpushed}
-    if [ "${gitInfo_flags}" = "" ] ; then
+    if [ "${gitInfo_flags}" = "" ]; then
       gitInfo="%F{238}% ┌[%F{magenta}% ${gitInfo_branch}%F{238}% ]
 └"
     else
