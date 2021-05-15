@@ -1,6 +1,9 @@
 #!/bin/sh
 # Fuctions
 
+# git() {
+# }
+
 his() {
   tempfzfcommand=`cat ~/.local/share/zsh/history | fzf`
   if [ -n "$tempfzfcommand" ]; then
@@ -99,7 +102,7 @@ ef() {
 
 fe() {
   tempfzfpath=`fd . --hidden --type f | fzf --layout=reverse --height=50%`
-  if [ -z $1 ] ; then
+  if [ -z $1 ]; then
     echo $tempfzfpath
   else
     $1 $tempfzfpath
