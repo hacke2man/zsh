@@ -13,21 +13,25 @@ his() {
   fi
 }
 
-checkGit() {
+findg() {
   fd . $HOME --hidden --exclude .cache | grep "\.git/config$" |
-    xargs grep "r1ri" -m 1 | sed "s/\.git.*/.git/" |
-    while read line
-    do
-      if echo $line | grep dotfiles.git -q ; then
-        workArea=$HOME
-      else
-        workArea=`echo $line | sed "s/\/\.git//"`
-      fi
+    xargs grep $GITHUB_NAME -m 1 | sed "s/\.git.*/.git/"
+}
 
-      echo $workArea | grep -o "[^/]\+$" | $HOME/Scripts/colorOnce 35
-      git --git-dir=$line --work-tree=$workArea status -b -s
-      echo
-    done
+checkGit() {
+  findg |
+  while read line
+  do
+    if echo $line | grep dotfiles.git -q ; then
+      workArea=$HOME
+    else
+      workArea=`echo $line | sed "s/\/\.git//"`
+    fi
+
+    echo $workArea | grep -o "[^/]\+$" | $HOME/Scripts/colorOnce 35
+    git --git-dir=$line --work-tree=$workArea status -b -s
+    echo
+  done
 }
 
 las() {
@@ -111,6 +115,17 @@ fe() {
 
 cdf() {
   tempfzfpath=`fDir`
+  if [ -n "$tempfzfpath" ]; then
+    echo $tempfzfpath
+    cd $HOME/$tempfzfpath
+  else
+    echo exit no selection
+  fi
+}
+
+cdg() {
+  tempfzfpath=`findg | sed 's@'"${HOME}"'/@@' | sed 's/\/\.git//' |
+    fzf --layout=reverse --height=50% `
   if [ -n "$tempfzfpath" ]; then
     echo $tempfzfpath
     cd $HOME/$tempfzfpath

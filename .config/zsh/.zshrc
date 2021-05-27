@@ -10,6 +10,8 @@ alias vifm="vifmrun"
 alias sourcefunc="source ${HOME}/.config/zsh/functions"
 alias dmenu="dmenu -fn iosevka -nb #282828 -nf #d5c4a1 -sb #fabd2f -sf #ebdbb2"
 alias website="ssh -i ~/.local/share/ssh/id_rsa root@pop-stack.org"
+alias con="git --work-tree=$HOME --git-dir=$HOME/.git"
+alias fixmon="xrandr --output DVI-D-1 --off --output DP-1 --off --output DP-2 --off --output HDMI-1 --mode 1920x1080 --pos 1920x0 --rotate normal --output DP-3 --primary --mode 1920x1080 --pos 0x0 --rotate normal"
 source $HOME/.config/zsh/functions
 
 autoload -U compinit
@@ -23,25 +25,21 @@ ZVM_CURSOR_STYLE_ENABLED=false
 
 setGitInfo() {
   if [ -f .git ]; then
-    export GIT_WORK_TREE=$PWD
-    export GIT_DIR=`cat .git | cut -d' ' -f2`
-    gdir=true
+    export gwt=$PWD
+    export gdir=`cat .git | cut -d' ' -f2`
   elif [ -d .git ]; then
-    export GIT_WORK_TREE=$PWD
-    export GIT_DIR="$PWD/.git"
-    gdir=true
+    export gwt=$PWD
+    export gdir="$PWD/.git"
   else
-    unset GIT_DIR
-    unset GIT_WORK_TREE
     unset gdir
   fi
 
   if [ -n "$gdir" ]; then
-    gitInfo_branch=`git branch | grep \* | cut -d" " -f2`
-    gitInfo_unstaged=`git status -s | grep "^.\S" -q && echo \!`
-    gitInfo_staged=`git status -s | grep "^\S." -q && echo \+`
-    gitInfo_stash=`git stash list | grep "\S*" -q && echo $`
-    gitInfo_unpushed=`git status | grep -q "ahead" && echo \^`
+    gitInfo_branch=`git --git-dir=$gdir --work-tree=$gwt branch | grep \* | cut -d" " -f2`
+    gitInfo_unstaged=`git --git-dir=$gdir --work-tree=$gwt status -s | grep "^.\S" -q && echo \!`
+    gitInfo_staged=`git --git-dir=$gdir --work-tree=$gwt status -s | grep "^\S." -q && echo \+`
+    gitInfo_stash=`git --git-dir=$gdir --work-tree=$gwt stash list | grep "\S*" -q && echo $`
+    gitInfo_unpushed=`git --git-dir=$gdir --work-tree=$gwt status | grep -q "ahead" && echo \^`
     gitInfo_flags=${gitInfo_staged}${gitInfo_unstaged}${gitInfo_stash}${gitInfo_unpushed}
     if [ "${gitInfo_flags}" = "" ]; then
       gitInfo="%F{238}% ┌[%F{magenta}% ${gitInfo_branch}%F{238}% ]

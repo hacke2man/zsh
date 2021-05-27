@@ -6,3 +6,6 @@
 	path = .config/dwm
 	url = https://github.com/r1ri/dwm
 	branch = master
+[submodule ".config/st"]
+	path = .config/st
+	url = https://github.com/r1ri/st

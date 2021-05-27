@@ -15,8 +15,7 @@ export MANPAGER="nvim +'Man! | set scrolloff=999 | normal M'"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_OPTS='--reverse --height=50%'
 export BAT_THEME=gruvbox-dark
-/bin/sh -c "export DMENU_DEFAULT_OPTS='-fn iosevka -nb #282828 -nf #d5c4a1 -sb #fabd2f -sf #ebdbb2'"
+export GITHUB_NAME="r1ri"
 
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
-export BROWSER=/usr/bin/brave
-source /usr/share/nvm/init-nvm.sh
+export BROWSER=/bin/brave
