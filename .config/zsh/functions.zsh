@@ -1,5 +1,25 @@
 #!/bin/sh
 # Fuctions
+g(){
+    git status --short
+    git stash list
+    echo -n [ | colorOnce 32
+    git branch --color --show-current | tr -d \\n
+    echo -n "] " | colorOnce 32
+  read TEMP
+  while [[ $TEMP != "q" ]]
+  do
+    echo $TEMP | sed "s/^/git /" | tr -d \\n | sh
+    echo ""
+    git status --short
+    git stash list
+    echo -n [ | colorOnce 32
+    git branch --color --show-current | tr -d \\n
+    echo -n "] " | colorOnce 32
+    read -r TEMP
+  done
+}
+
 function _cdf() {
   zle kill-whole-line
     zle vi-open-line-below
