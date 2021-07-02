@@ -1,7 +1,18 @@
-/.cache
-/.local
-/.antigen
-/.npm
-/**/.git
-/.cargo
-/.surf
+# Rules
+/.*/
+
+# annoying dir
+/qmk_firmware
+
+# Make Searchable
+
+# Select config dirs
+!/.config
+/.config/*
+!/.config/nvim
+!/.config/zsh
+
+# Select local dir
+!/.local
+/.local*
+!/.local/shared
