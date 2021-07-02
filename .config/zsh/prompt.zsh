@@ -1,5 +1,3 @@
-#!/bin/sh
-
 setGitInfo() {
   if [ -f .git ]; then
     export gwt=$PWD
@@ -19,11 +17,9 @@ setGitInfo() {
     gitInfo_unpushed=`git --git-dir=$gdir --work-tree=$gwt status | grep -q "ahead" && echo \^`
     gitInfo_flags=${gitInfo_staged}${gitInfo_unstaged}${gitInfo_stash}${gitInfo_unpushed}
     if [ "${gitInfo_flags}" = "" ]; then
-      gitInfo="%F{238}% ┌[%F{magenta}% ${gitInfo_branch}%F{238}% ]
-└"
+      gitInfo="%F{238}% [%F{magenta}% ${gitInfo_branch}%F{238}% ]"
     else
-      gitInfo="%F{238}% ┌[%F{magenta}% ${gitInfo_branch}%F{238}% ]-[%F{red}% ${gitInfo_flags}%F{238}% ]
-└"
+      gitInfo="%F{238}% [%F{magenta}% ${gitInfo_branch}%F{238}% ]-[%F{red}% ${gitInfo_flags}%F{238}% ]"
     fi
 
   else
@@ -31,9 +27,22 @@ setGitInfo() {
   fi
 }
 
+setpromptformat()
+{
+  if [ -n "${gitInfo}" ]; then
+    promptOne="
+%F{238}% ┌${gitInfo}
+└"
+    else
+      promptOne='
+'
+  fi
+}
+
 precmd() {
   setGitInfo
+  setpromptformat
 }
 
 setopt PROMPT_SUBST
-PROMPT='${gitInfo}%F{238}% [%F{yellow}% %c%F{238}% ]%?%F{foreground} '
+PROMPT='${promptOne}%F{238}% [%F{yellow}% %c%F{238}% ]%?%F{foreground} '
