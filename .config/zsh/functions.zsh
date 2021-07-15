@@ -1,5 +1,6 @@
 #!/bin/sh
 # Fuctions
+
 g(){
     git status --short
     git stash list
@@ -19,25 +20,6 @@ g(){
     read -r TEMP
   done
 }
-
-function _cdf() {
-  zle kill-whole-line
-    zle vi-open-line-below
-    cdf
-    zle accept-line
-}
-zle -N _cdf
-bindkey "^F" _cdf
-bindkey -a "^F" _cdf
-
-function _ef() {
-    zle vi-open-line-below
-    ef
-    zle accept-line
-}
-zle -N _ef
-bindkey "^E" _ef
-bindkey -a "^E" _ef
 
 function zsh_add_file() {
     [ -f "$ZDOTDIR/$1" ] && source "$ZDOTDIR/$1"
@@ -122,16 +104,19 @@ ff() {
     tempPath="."
   fi
 
-  rg . -l --hidden $tempPath| fzf
+  fd . --hidden --type f --ignore-file ~/.gitignore |
+    fzf --layout=reverse --height=50%
 }
 
 fDir() {
-  fd . --hidden --type d --base-directory ~/ |
+  fd . --hidden --type d --base-directory ~/ --ignore-file=$HOME/.gitignore |
     fzf --layout=reverse --height=50%
 }
 
 fs(){
-  rg . -n --ignore-file $HOME/.rgignore | fzf
+  RG_PREFIX="rg --hidden -n --ignore-file $HOME/.gitignore"
+    echo | fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+    --ansi --disabled
 }
 
 ef() {

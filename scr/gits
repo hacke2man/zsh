@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+$temp = " "
+
+while [ "$temp" == "done" ]
+do
+  read $temp
+  echo $temp
+done
