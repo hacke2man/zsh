@@ -1,5 +1,3 @@
-alias la="exa -la --group-directories-first --git --color=always | cut -d: -f2 | sed 's/^..//'"
-alias ls="exa -l --group-directories-first --git --color=always | cut -d: -f2 | sed 's/^..//'"
 alias tmls="tmux ls"
 alias tmrn="tmux new-window ranger"
 alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"

@@ -1,6 +1,16 @@
 #!/bin/sh
 # Fuctions
 
+la()
+{
+  exa -la --group-directories-first --git --color=always $@ | cut -d: -f2 | sed 's/^..//'
+}
+
+ls()
+{
+  exa -l --group-directories-first --git --color=always $@ | cut -d: -f2 | sed 's/^..//'
+}
+
 g(){
     git status --short
     git stash list
