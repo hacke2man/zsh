@@ -9,37 +9,31 @@ export KEYTIMEOUT=1
 # bindkey -M menuselect '^j' vi-down-line-or-history
 # bindkey -v '^?' backward-delete-char
 
-function _cdf() {
-  zle kill-whole-line
-    zle vi-open-line-below
-    cdf
-    zle accept-line
+leader_widget() {
+  $HOME/dev/getc/getc < /dev/tty | read char
+  case $char in
+    'e')
+      $HOME/dev/getc/getc < /dev/tty | read char
+      case $char in
+        'f')
+        zle vi-open-line-below
+        ef
+        ;;
+      's')
+        zle vi-open-line-below
+        efs
+      esac
+      ;;
+    'f')
+      zle kill-whole-line
+      zle vi-open-line-below
+      cdf
+      ;;
+  esac
+  zle accept-line
 }
-zle -N _cdf
-bindkey "^F" _cdf
-bindkey -a "^F" _cdf
-bindkey -a "z" _cdf
-
-function _ef() {
-    zle vi-open-line-below
-    ef
-    zle accept-line
-}
-zle -N _ef
-bindkey "^E" _ef
-bindkey -a "^E" _ef
-bindkey -a "q" _ef
-
-function _efs() {
-    zle vi-open-line-below
-    efs
-    zle accept-line
-}
-stty stop undef
-zle -N _efs
-bindkey "^S" _efs
-bindkey -a "^S" _efs
-
+zle -N leader_widget
+bindkey -a ' ' leader_widget
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
@@ -69,9 +63,8 @@ function vi-yank-xclip {
 zle -N vi-yank-xclip
 bindkey -M vicmd 'y' vi-yank-xclip
 
-_cmdmode() {
-  zle zle-line-init
-  zle vim-cmd-mode
-  zle accept-line
+(){
+  _cmdmode() {
+   zle vim-cmd-mode
+  }
 }
-
