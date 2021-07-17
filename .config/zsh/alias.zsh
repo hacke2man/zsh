@@ -1,3 +1,4 @@
+alias ls="ls --color --group-directories-first"
 alias tmls="tmux ls"
 alias tmrn="tmux new-window ranger"
 alias cam="mpv av://v4l2:/dev/video0 --profile=low-latency --untimed"

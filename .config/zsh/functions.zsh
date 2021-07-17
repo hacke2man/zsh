@@ -6,9 +6,15 @@ la()
   exa -la --group-directories-first --git --color=always $@ | cut -d: -f2 | sed 's/^..//'
 }
 
-ls()
+color_files()
 {
-  exa -l --group-directories-first --git --color=always $@ | cut -d: -f2 | sed 's/^..//'
+  cat -|
+  while read line
+  do
+    type=`ls -l $line|`
+    if []
+    echo -n "$line " |colorOnce 34
+  done
 }
 
 g(){
