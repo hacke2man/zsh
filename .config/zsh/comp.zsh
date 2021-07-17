@@ -8,22 +8,37 @@
 # - $FZF_TMUX_HEIGHT        (default: '40%')
 # - $FZF_COMPLETION_TRIGGER (default: '**')
 # - $FZF_COMPLETION_OPTS    (default: empty)
+export FZF_COMPLETION_TRIGGER="*"
 
 # To use custom commands instead of find, override _fzf_compgen_{path,dir}
+# if ! declare -f _fzf_compgen_path > /dev/null; then
+#   _fzf_compgen_path() {
+#     echo "$1"
+#     command find -L "$1" \
+#       -name .git -prune -o -name .svn -prune -o \( -type d -o -type f -o -type l \) \
+#       -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+#   }
+# fi
 if ! declare -f _fzf_compgen_path > /dev/null; then
   _fzf_compgen_path() {
     echo "$1"
-    command find -L "$1" \
-      -name .git -prune -o -name .svn -prune -o \( -type d -o -type f -o -type l \) \
-      -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+
+    command fd . --hidden --type f --ignore-file ~/.gitignore $1
+
   }
 fi
 
+# if ! declare -f _fzf_compgen_dir > /dev/null; then
+#   _fzf_compgen_dir() {
+#     command find -L "$1" \
+#       -name .git -prune -o -name .svn -prune -o -type d \
+#       -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+#   }
+# fi
+
 if ! declare -f _fzf_compgen_dir > /dev/null; then
   _fzf_compgen_dir() {
-    command find -L "$1" \
-      -name .git -prune -o -name .svn -prune -o -type d \
-      -a -not -path "$1" -print 2> /dev/null | sed 's@^\./@@'
+    command fd . --hidden --type d --base-directory ~/ --ignore-file=$HOME/.gitignore $1
   }
 fi
 
