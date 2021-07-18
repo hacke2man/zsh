@@ -42,6 +42,7 @@ setpromptformat()
 precmd() {
   setGitInfo
   setpromptformat
+  autoload -Uz bindkey -a
 }
 
 setopt PROMPT_SUBST

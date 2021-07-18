@@ -8,29 +8,52 @@ export KEYTIMEOUT=1
 # bindkey -M menuselect '^l' vi-forward-char
 # bindkey -M menuselect '^j' vi-down-line-or-history
 # bindkey -v '^?' backward-delete-char
+bindkey -a 'k' history-beginning-search-backward
+bindkey -a 'j' history-beginning-search-forward
+bindkey '\e[A' history-beginning-search-backward
+bindkey '\e[B' history-beginning-search-forward
+# bindkey -ar 'm'
 
+# getc is litterally int main(){ int c = getchar(); printf("%s",c); }
 leader_widget() {
-  $HOME/dev/getc/getc < /dev/tty | read char
+  getc < /dev/tty | read char
   case $char in
-    'e')
-      $HOME/dev/getc/getc < /dev/tty | read char
-      case $char in
-        'f')
-        zle vi-open-line-below
-        ef
-        ;;
-      's')
-        zle vi-open-line-below
-        efs
-      esac
-      ;;
     'f')
+      zle vi-open-line-below
+      ef
+      zle accept-line
+      ;;
+    's')
+      zle vi-open-line-below
+      efs
+      zle accept-line
+      ;;
+    'd')
       zle kill-whole-line
       zle vi-open-line-below
       cdf
+      zle accept-line
+      ;;
+    'l')
+      zle kill-whole-line
+      zle vi-open-line-below
+      listfiles --group-directories-first --color
+      zle kill-whole-line
+      zle accept-line
+      ;;
+    'e')
+      PASTE="e "
+      LBUFFER="$LBUFFER${RBUFFER:0:1}"
+      RBUFFER="$PASTE${RBUFFER:1:${#RBUFFER}}"
+      zle vi-end-of-line
+      zle -K viins
+      ;;
+    'b')
+      cd ..
+      zle kill-whole-line
+      zle accept-line
       ;;
   esac
-  zle accept-line
 }
 zle -N leader_widget
 bindkey -a ' ' leader_widget
@@ -46,25 +69,41 @@ function zle-keymap-select () {
 zle -N zle-keymap-select
 
 zle-line-init() {
-   zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
-   echo -ne "\e[5 q"
+  zle -K vicmd
 }
 
 zle -N zle-line-init
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+preexec() {
+  echo -ne '\e[5 q';
+} # Use beam shape cursor for each new prompt.
 
 # Yank to the system clipboard
-function vi-yank-xclip {
-    zle vi-yank
-   echo "$CUTBUFFER" | xclip -selection clipboard
+function u-vi-yank {
+  zle vi-yank
+  echo -ne "$CUTBUFFER" | xclip -selection clipboard
 }
+zle -N u-vi-yank
+bindkey -a "y" u-vi-yank
 
-zle -N vi-yank-xclip
-bindkey -M vicmd 'y' vi-yank-xclip
-
-(){
-  _cmdmode() {
-   zle vim-cmd-mode
-  }
+function u-vi-delete {
+  zle vi-delete
+  echo -ne "$CUTBUFFER" | xclip -selection clipboard
 }
+zle -N u-vi-delete
+bindkey -a "d" u-vi-delete
+
+function u-vi-change {
+  zle vi-change
+  echo -ne "$CUTBUFFER" | xclip -selection clipboard
+}
+zle -N u-vi-change
+bindkey -a "c" u-vi-change
+
+x-paste() {
+    PASTE=$(xclip -selection clipboard -o)
+    LBUFFER="$LBUFFER${RBUFFER:0:1}"
+    RBUFFER="$PASTE${RBUFFER:1:${#RBUFFER}}"
+}
+zle -N x-paste
+bindkey -M vicmd "p" x-paste

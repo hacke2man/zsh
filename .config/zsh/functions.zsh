@@ -76,7 +76,7 @@ checkGit() {
       workArea=`echo $line | sed "s/\/\.git//"`
     fi
 
-    echo $workArea | grep -o "[^/]\+$" | $HOME/Scripts/colorOnce 35
+    echo $workArea | grep -o "[^/]\+$" | colorOnce 35
     git --git-dir=$line --work-tree=$workArea status -b -s
     echo
   done
