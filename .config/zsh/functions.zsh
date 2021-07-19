@@ -127,6 +127,8 @@ ff() {
 fDir() {
   fd . --hidden --type d --base-directory ~/ --ignore-file=$HOME/.gitignore |
     fzy
+  # fd . --hidden --type d --ignore-file=$HOME/.gitignore |
+  #   fzf --layout=reverse --height=50%
 }
 
 fs(){
@@ -169,7 +171,7 @@ cdf() {
   tempfzfpath=`fDir`
   if [ -n "$tempfzfpath" ]; then
     echo -n $tempfzfpath
-    cd $HOME/$tempfzfpath
+    cd $tempfzfpath
   else
     echo -n exit no selection
   fi
