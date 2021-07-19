@@ -42,6 +42,7 @@ leader_widget() {
       zle accept-line
       ;;
     'e')
+      zle kill-whole-line
       PASTE="e "
       LBUFFER="$LBUFFER${RBUFFER:0:1}"
       RBUFFER="$PASTE${RBUFFER:1:${#RBUFFER}}"
@@ -52,6 +53,14 @@ leader_widget() {
       cd ..
       zle kill-whole-line
       zle accept-line
+      ;;
+    'c')
+      zle kill-whole-line
+      PASTE="cd "
+      LBUFFER="$LBUFFER${RBUFFER:0:1}"
+      RBUFFER="$PASTE${RBUFFER:1:${#RBUFFER}}"
+      zle vi-end-of-line
+      zle -K viins
       ;;
   esac
 }

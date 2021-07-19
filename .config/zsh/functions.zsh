@@ -121,18 +121,19 @@ ff() {
   fi
 
   fd . --hidden --type f --ignore-file ~/.gitignore |
-    fzf --layout=reverse --height=50%
+    fzy
 }
 
 fDir() {
   fd . --hidden --type d --base-directory ~/ --ignore-file=$HOME/.gitignore |
-    fzf --layout=reverse --height=50%
+    fzy
 }
 
 fs(){
-  RG_PREFIX="rg --hidden -n --ignore-file $HOME/.gitignore"
-    echo | fzf --bind "change:reload:$RG_PREFIX {q} || true" \
-    --ansi --disabled
+  # RG_PREFIX="rg --hidden -n --ignore-file $HOME/.gitignore | fzy --show-matches="
+  #   echo | fzf --bind "change:reload:$RG_PREFIX {q} | fzy --show-matches={q} || true" \
+  #   --ansi --disabled
+  rg . --hidden -n --ignore-file $HOME/.gitignore | fzy
 }
 
 ef() {
@@ -192,7 +193,7 @@ mvf() {
     echo "move ${tempfzfpath1} to ${tempfzfpath2}"
     mv $tempfzfpath1 $tempfzfpath2
   else
-    echo exit no selection
+    echo -n exit no selection
   fi
 }
 
@@ -213,9 +214,9 @@ tmf() {
 efs() {
   tempfzfpath=`fs`
   if  [ -n "$tempfzfpath" ]; then
-    echo $tempfzfpath
+    echo -n $tempfzfpath
     $EDITOR `echo $tempfzfpath | cut -d: -f1` +`echo $tempfzfpath | cut -d: -f2`
   else
-    echo no selection
+    echo -n no selection
   fi
 }

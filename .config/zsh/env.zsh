@@ -22,6 +22,7 @@ export FZF_DEFAULT_OPTS='
 --color=info:#fabd2f,prompt:#8ec07c,pointer:#b16286
 --color=marker:#b16286,spinner:#fabd2f,header:#458588
 --ansi
+--bind=tab:down,shift-tab:up+unbind:shift-tab
 '
 export BAT_THEME=gruvbox-dark
 export GITHUB_NAME="r1ri"
