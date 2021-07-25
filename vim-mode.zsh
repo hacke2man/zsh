@@ -20,19 +20,41 @@ leader_widget() {
   case $char in
     'f')
       zle vi-open-line-below
-      ef
-      zle accept-line
+      edit_find
+
+      zle kill-whole-line
+      precmd
+      zle reset-prompt
+      zle -K vicmd
+      ;;
+    'g')
+      zle vi-open-line-below
+      fzftemppath=`findg | sed "s|\$HOME|~|"| fzf`
+      eval "cd $fzftemppath"
+
+      zle kill-whole-line
+      precmd
+      zle reset-prompt
+      zle -K vicmd
       ;;
     's')
       zle vi-open-line-below
-      efs
-      zle accept-line
+      edit_find_string
+
+      zle kill-whole-line
+      precmd
+      zle reset-prompt
+      zle -K vicmd
       ;;
     'd')
       zle kill-whole-line
       zle vi-open-line-below
-      cdf
-      zle accept-line
+      cd_find
+
+      zle kill-whole-line
+      precmd
+      zle reset-prompt
+      zle -K vicmd
       ;;
     'l')
       zle kill-whole-line
@@ -51,8 +73,7 @@ leader_widget() {
       ;;
     'b')
       cd ..
-      zle kill-whole-line
-      zle accept-line
+      zle reset-prompt
       ;;
     'c')
       zle kill-whole-line
@@ -61,6 +82,9 @@ leader_widget() {
       RBUFFER="$PASTE${RBUFFER:1:${#RBUFFER}}"
       zle vi-end-of-line
       zle -K viins
+      ;;
+    'q')
+      exit
       ;;
   esac
 }

@@ -62,22 +62,16 @@ his() {
 }
 
 findg() {
-  fd . $HOME --hidden --exclude .cache | grep "\.git/config$" |
-    xargs grep $GITHUB_NAME -m 1 | sed "s/\.git.*/.git/"
+  fd '^config$' --type f $HOME --hidden --one-file-system --no-ignore-vcs --ignore-file=$HOME/.gitignore |
+   grep ".git/[a-z]*$" | xargs rg $GITHUB_NAME -m 1 | sed "s/\.git.*/.git/" | sed "s/\/\.git//"
 }
 
-checkGit() {
+checkgit() {
   findg |
   while read line
   do
-    if echo $line | grep dotfiles.git -q ; then
-      workArea=$HOME
-    else
-      workArea=`echo $line | sed "s/\/\.git//"`
-    fi
-
-    echo $workArea | grep -o "[^/]\+$" | colorOnce 35
-    git --git-dir=$line --work-tree=$workArea status -b -s
+    echo $line | grep -o "[^/]\+$" | colorOnce 35
+    git --git-dir=$line/.git --work-tree=$line status -b -s
     echo
   done
 }
@@ -109,116 +103,53 @@ home(){
   fi
 }
 
-attachedToTmux() {
-  [ -z ${TMUX} ]
-}
-
-ff() {
+find_file() {
   if [ -n "${1}" ]; then
     tempPath="${1}"
   else
     tempPath="."
   fi
 
-  fd . --hidden --type f --ignore-file ~/.gitignore |
-    fzy
+  fd . --max-depth=1 --type f --one-file-system --hidden |
+    fzf --bind "change:reload(fd {q} --hidden --one-file-system --type f --ignore-file=$HOME/.gitignore | fzy --show-matches={q} | head -50)" \
+    --preview "bat --color=always --line-range :500 {}"\
 }
 
-fDir() {
-  fd . --hidden --type d --base-directory ~/ --ignore-file=$HOME/.gitignore |
-    fzy
-  # fd . --hidden --type d --ignore-file=$HOME/.gitignore |
-  #   fzf --layout=reverse --height=50%
+find_dir() {
+  fd . --max-depth=1 --type d --one-file-system --hidden |
+    fzf --bind "change:reload(fd {q} --hidden --one-file-system --type d --ignore-file=$HOME/.gitignore | fzy --show-matches={q} | head -50)" \
+    --preview "ls --color --group-directories-first -1A {}"\
 }
 
-fs(){
-  # RG_PREFIX="rg --hidden -n --ignore-file $HOME/.gitignore | fzy --show-matches="
-  #   echo | fzf --bind "change:reload:$RG_PREFIX {q} | fzy --show-matches={q} || true" \
-  #   --ansi --disabled
-  rg . --hidden -n --ignore-file $HOME/.gitignore | fzy
+find_string(){
+  fd . --max-depth=1 --type f --one-file-system --hidden | sed "s/$/\:1/" |
+    fzf --bind "change:reload(rg {q} --hidden --one-file-system -n --ignore-file=$HOME/.gitignore | fzy --show-matches={q} | head -100)" \
+    --preview "batrg {}"\
 }
 
-ef() {
+edit_find() {
   if [ -n "${1}" ]; then
     argPath="${1}"
   else
     argPath="."
   fi
 
-  tempfzfpath=`ff $argPath`
-  if [ -z ${tempfzfpath} ]; then
-    echo -n exit no selection
-  else
-    echo -n $tempfzfpath
-    if attachedToTmux ; then
-      $EDITOR $tempfzfpath
-    else
-      tmux new-window $EDITOR $tempfzfpath
-    fi
+  tempfzfpath=`find_file $argPath`
+  if [ -n "${tempfzfpath}" ]; then
+    $EDITOR $tempfzfpath
   fi
 }
 
-fe() {
-  tempfzfpath=`fd . --hidden --type f | fzf --layout=reverse --height=50%`
-  if [ -z $1 ]; then
-    echo $tempfzfpath
-  else
-    $1 $tempfzfpath
-  fi
-}
-
-cdf() {
-  tempfzfpath=`fDir`
+cd_find() {
+  tempfzfpath=`find_dir`
   if [ -n "$tempfzfpath" ]; then
-    echo -n $tempfzfpath
     cd $tempfzfpath
-  else
-    echo -n exit no selection
   fi
 }
 
-cdg() {
-  tempfzfpath=`findg | sed 's@'"${HOME}"'/@@' | sed 's/\/\.git//' |
-    fzf --layout=reverse --height=50% `
-  if [ -n "$tempfzfpath" ]; then
-    echo $tempfzfpath
-    cd $HOME/$tempfzfpath
-  else
-    echo exit no selection
-  fi
-}
-
-mvf() {
-  tempfzfpath1=`ff`
-  tempfzfpath2=`fDir`
-  if [ -n "$tempfzfpath1" ] && [ -n "$tempfzfpath2" ]; then
-    echo "move ${tempfzfpath1} to ${tempfzfpath2}"
-    mv $tempfzfpath1 $tempfzfpath2
-  else
-    echo -n exit no selection
-  fi
-}
-
-tmf() {
-  tempfzfpath=`fDir`
-  if [ -z ${tempfzfpath} ]; then
-    echo exit no selection
-  else
-    echo $tempfzfpath
-    if attachedToTmux ; then
-      tmux new-session -c $tempfzfpath
-    else
-      tmux new-window -c $tempfzfpath
-    fi
-  fi
-}
-
-efs() {
-  tempfzfpath=`fs`
+edit_find_string() {
+  tempfzfpath=`find_string`
   if  [ -n "$tempfzfpath" ]; then
-    echo -n $tempfzfpath
     $EDITOR `echo $tempfzfpath | cut -d: -f1` +`echo $tempfzfpath | cut -d: -f2`
-  else
-    echo -n no selection
   fi
 }
