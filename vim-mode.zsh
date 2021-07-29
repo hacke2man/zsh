@@ -86,6 +86,9 @@ leader_widget() {
     'q')
       exit
       ;;
+    'z')
+      $EDITOR +"norm '0"
+      ;;
   esac
 }
 zle -N leader_widget
