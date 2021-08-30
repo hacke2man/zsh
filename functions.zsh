@@ -1,40 +1,7 @@
-#!/bin/sh
 # Fuctions
 
-la()
-{
-  exa -la --group-directories-first --git --color=always $@ | cut -d: -f2 | sed 's/^..//'
-}
-
-color_files()
-{
-  cat -|
-  while read line
-  do
-    type=`ls -l $line|`
-    if []
-    echo -n "$line " |colorOnce 34
-  done
-}
-
-g(){
-    git status --short
-    git stash list
-    echo -n [ | colorOnce 32
-    git branch --color --show-current | tr -d \\n
-    echo -n "] " | colorOnce 32
-  read TEMP
-  while [[ $TEMP != "q" ]]
-  do
-    echo $TEMP | sed "s/^/git /" | tr -d \\n | sh
-    echo ""
-    git status --short
-    git stash list
-    echo -n [ | colorOnce 32
-    git branch --color --show-current | tr -d \\n
-    echo -n "] " | colorOnce 32
-    read -r TEMP
-  done
+edit(){
+  $EDITOR $@
 }
 
 function zsh_add_file() {
@@ -53,16 +20,12 @@ function zsh_add_plugin() {
 }
 
 his() {
-  tempfzfcommand=`cat ~/.local/share/zsh/history | fzf`
-  if [ -n "$tempfzfcommand" ]; then
-    eval $tempfzfcommand
-  else
-    echo no selection
-  fi
+  read history_search
+  grep --color $history_search  ~/.local/share/zsh/history
 }
 
 findg() {
-  fd '^config$' --type f $HOME --hidden --one-file-system --no-ignore-vcs --ignore-file=$HOME/.gitignore |
+  fd '^config$' --type f $HOME --hidden --one-file-system --no-ignore-vcs |
    grep ".git/[a-z]*$" | xargs rg $GITHUB_NAME -m 1 | sed "s/\.git.*/.git/" | sed "s/\/\.git//"
 }
 
@@ -76,30 +39,12 @@ checkgit() {
   done
 }
 
-las() {
-  lsResult=`ls -lhAF $1 |
-    sed "1 d; s/^\S* //; s/\s*[0-9]\+//; s/ liam//; s/ [A-Z].*:[0-9][0-9]//; /\// d"`
-
-  du -hd 1 | sed "/\.$/ d; s/\s\.\// /; /^\S\S\S / s/^/ /; s/^/ /" | colorOnce 34
-  echo $lsResult
-}
-
 battery() {
   supply=`cat /sys/class/power_supply/BAT0/capacity`
   if grep Charging -q /sys/class/power_supply/BAT0/status ; then
     echo \*$supply
   else
     echo $supply
-  fi
-}
-
-home(){
-  if tmux ls | grep -q home ; then
-    tmux attach -t 'home'
-  else
-    tmux new-session -d
-    tmux rename-session 'home'
-    tmux attach-session
   fi
 }
 
@@ -110,15 +55,13 @@ find_file() {
     tempPath="."
   fi
 
-  fd . --max-depth=1 --type f --one-file-system --hidden |
-    fzf --bind "change:reload(fd {q} --hidden --one-file-system --type f --ignore-file=$HOME/.gitignore | fzy --show-matches={q} | head -50)" \
-    --preview "bat --color=always --line-range :500 {}"\
+  fd . --type f --one-file-system --hidden --exclude .git |
+    fzy
 }
 
 find_dir() {
-  fd . --max-depth=1 --type d --one-file-system --hidden |
-    fzf --bind "change:reload(fd {q} --hidden --one-file-system --type d --ignore-file=$HOME/.gitignore | fzy --show-matches={q} | head -50)" \
-    --preview "ls --color --group-directories-first -1A {}"\
+  fd . --type d --one-file-system --hidden --exclude .git |
+    fzy
 }
 
 find_string(){

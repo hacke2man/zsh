@@ -3,6 +3,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
 export PATH=$PATH:$HOME/.local/bin:$HOME/.local/bin:$HOME/scr
+export DRPATH=$XDG_DATA_HOME/dmrun
 
 export ZDOTDIR=$HOME/.config/zsh
 export FPATH=$HOME/.config/zsh:$FPATH

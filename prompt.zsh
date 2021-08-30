@@ -90,18 +90,17 @@ setGitInfo()
     gitInfo_flags="${gitInfo_staged}${gitInfo_unstaged}${gitInfo_stash}${gitInfo_unpushed}"
     [ -n "$gitInfo_flags" ] && gitInfo_flags="%F{red}% $gitInfo_flags"
     export gitInfo=`formatpromptitem gitInfo_branch gitInfo_flags`
+  else
+    unset gitInfo
   fi
 }
 
 setpromptformat()
 {
   if [ -n "${gitInfo}" ]; then
-    promptOne="
-%F{238}% ┌${gitInfo}
-└"
+    promptTwo="${gitInfo}-"
     else
-      promptOne='
-'
+      promptTwo=''
   fi
 }
 
@@ -113,3 +112,5 @@ precmd() {
 
 setopt PROMPT_SUBST
 PROMPT='${promptOne}%F{238}% [%F{yellow}% %c%F{238}% ]%?%F{foreground} '
+RPROMPT='%F{green} ${promptTwo}${RPROMPT_MODE}'
+setopt transient_rprompt

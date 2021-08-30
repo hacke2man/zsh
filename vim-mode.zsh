@@ -13,55 +13,52 @@ bindkey -a 'j' history-beginning-search-forward
 bindkey '\e[A' history-beginning-search-backward
 bindkey '\e[B' history-beginning-search-forward
 # bindkey -ar 'm'
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -a "^E" edit-command-line
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd) RPROMPT_MODE="%F{238}[normal]";;      # NORMAL mode
+        viins|main) RPROMPT_MODE="%F{238}[insert]";; # INSERT mode
+    esac
+    zle reset-prompt
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K vicmd
+    export RPROMPT_MODE="%F{238}[normal]"
+    zle reset-prompt
+}
+zle -N zle-line-init
+# zle-line-init() {
 
 # getc is litterally int main(){ int c = getchar(); printf("%s",c); }
 leader_widget() {
   getc < /dev/tty | read char
   case $char in
     'f')
-      zle vi-open-line-below
-      edit_find
-
-      zle kill-whole-line
-      precmd
-      zle reset-prompt
-      zle -K vicmd
+      run_in_place edit_find
       ;;
     'g')
-      zle vi-open-line-below
-      fzftemppath=`findg | sed "s|\$HOME|~|"| fzf`
-      eval "cd $fzftemppath"
-
-      zle kill-whole-line
-      precmd
-      zle reset-prompt
-      zle -K vicmd
+      run_in_place fzftemppath=`findg | sed "s|\$HOME|~|"| fzf` &&\
+        eval "cd $fzftemppath"
       ;;
     's')
-      zle vi-open-line-below
-      edit_find_string
-
-      zle kill-whole-line
-      precmd
-      zle reset-prompt
-      zle -K vicmd
+      run_in_place edit_find_string
       ;;
     'd')
-      zle kill-whole-line
-      zle vi-open-line-below
-      cd_find
-
-      zle kill-whole-line
-      precmd
-      zle reset-prompt
-      zle -K vicmd
+      run_in_place cd_find
+      ;;
+    'p')
+      run_in_place launch_programs
+      ;;
+    'b')
+      run_in_place cd ..
       ;;
     'l')
-      zle kill-whole-line
-      zle vi-open-line-below
-      listfiles --group-directories-first --color
-      zle kill-whole-line
-      zle accept-line
+      run_in_place follow_mfm
       ;;
     'e')
       zle kill-whole-line
@@ -70,10 +67,6 @@ leader_widget() {
       RBUFFER="$PASTE${RBUFFER:1:${#RBUFFER}}"
       zle vi-end-of-line
       zle -K viins
-      ;;
-    'b')
-      cd ..
-      zle reset-prompt
       ;;
     'c')
       zle kill-whole-line
@@ -94,25 +87,30 @@ leader_widget() {
 zle -N leader_widget
 bindkey -a ' ' leader_widget
 
-# Change cursor shape for different vi modes.
-function zle-keymap-select () {
-   case $KEYMAP in
-      vicmd) echo -ne '\e[1 q';;      # block
-      viins|main) echo -ne '\e[5 q';; # beam
-   esac
+function follow_mfm()
+{
+  mfm_path=`mfm </dev/tty`
+
+  [ -d "$mfm_path" ] && cd $mfm_path
+  [ -f "$mfm_path" ] && $EDITOR $mfm_path
 }
 
-zle -N zle-keymap-select
-
-zle-line-init() {
+function run_in_place()
+{
+  zle kill-whole-line
+  zle vi-open-line-below
+  $@
+  zle kill-whole-line
+  precmd
+  zle reset-prompt
   zle -K vicmd
 }
 
-zle -N zle-line-init
-echo -ne '\e[5 q' # Use beam shape cursor on startup.
-preexec() {
-  echo -ne '\e[5 q';
-} # Use beam shape cursor for each new prompt.
+function clear-screen {
+  clear
+  zle reset-prompt
+}
+zle -N clear-screen
 
 # Yank to the system clipboard
 function u-vi-yank {
