@@ -17,6 +17,15 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey -a "^E" edit-command-line
 
+function zle-line-finish()
+{
+  echo $BUFFER >> ~/.local/share/zsh/history
+  lua ~/scr/helper/insertUnique.lua ~/.local/share/zsh/history > /tmp/zshhist
+  mv /tmp/zshhist ~/.local/share/zsh/history
+  fc -R
+}
+zle -N zle-line-finish
+
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
     case $KEYMAP in
@@ -77,6 +86,7 @@ leader_widget() {
       zle -K viins
       ;;
     'q')
+      xdotool key ctrl+o
       exit
       ;;
     'z')
@@ -89,10 +99,14 @@ bindkey -a ' ' leader_widget
 
 function follow_mfm()
 {
-  mfm_path=`mfm </dev/tty`
-
-  [ -d "$mfm_path" ] && cd $mfm_path
-  [ -f "$mfm_path" ] && $EDITOR $mfm_path
+  mfm_path="$PWD"
+  mfm_backup_path=""
+  while [ -n "$mfm_path" ]; do
+    mfm_path=`minifm $mfm_path </dev/tty`
+    [ -f "$mfm_path" ] && edit $mfm_path
+    if [ -d "$mfm_path" ] && cd $mfm_path
+    [ -n "$mfm_path" ] && mfm_path="$PWD"
+  done
 }
 
 function run_in_place()

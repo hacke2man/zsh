@@ -15,3 +15,4 @@ zmodload zsh/zpty
 zsh_add_plugin zsh-users/zsh-autosuggestions
 zsh_add_plugin zsh-users/zsh-syntax-highlighting
 echo
+set_title "zsh" "$PPID"

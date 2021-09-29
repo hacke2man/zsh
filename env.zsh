@@ -1,7 +1,9 @@
+export LC_CTYPE=en_CA.UTF-8
 export HISTFILE="$XDG_DATA_HOME"/zsh/history
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
+export XDG_DESKTOP_DIR=$HOME/desk
 export PATH=$PATH:$HOME/.local/bin:$HOME/.local/bin:$HOME/scr
 export DRPATH=$XDG_DATA_HOME/dmrun
 
@@ -26,6 +28,8 @@ export FZF_DEFAULT_OPTS='
 '
 export BAT_THEME=gruvbox-dark
 export GITHUB_NAME="r1ri"
+export QT_QPA_PLATFORMTHEME="qt5ct"
 
 export EDITOR=nvim
 export BROWSER=/bin/brave
+export TERM="screen-256color"

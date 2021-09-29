@@ -1,7 +1,48 @@
 # Fuctions
 
+function mfm()
+{
+  if [ -n "$1" ]; then
+    mfm_path="$1"
+  else
+    mfm_path="."
+  fi
+
+  while [ -n "$mfm_path" ]; do
+    mfm_path=`minifm $mfm_path </dev/tty`
+    [ -f "$mfm_path" ] && $EDITOR $mfm_path
+    [ -d "$mfm_path" ] && cd $mfm_path
+    [ -n "$mfm_path" ] && mfm_path="$PWD"
+  done
+  stty sane
+}
+
+win_title_length=0
+set_title(){
+  win_title_length=$((win_title_length+1))
+  win_title[$win_title_length]="$@"
+  printf '\033];%s\a' "${win_title[@]}"
+}
+
+reset_title(){
+  win_title[$win_title_length]=""
+  win_title=($win_title[1,$win_title_length-1] $win_title[$win_title_length+1,-1])
+  win_title_length=$((win_title_length-1))
+  printf '\033];%s\a' "${win_title[@]}"
+}
+
+run_title(){
+  set_title $@
+  $@
+  reset_title
+}
+
 edit(){
-  $EDITOR $@
+  if [ -d "$1" ]; then
+    run_title mfm $@
+  else  #elif [ -f "$1" ]; then
+    run_title $EDITOR $@
+  fi
 }
 
 function zsh_add_file() {
@@ -33,7 +74,7 @@ checkgit() {
   findg |
   while read line
   do
-    echo $line | grep -o "[^/]\+$" | colorOnce 35
+    echo $line | grep -o "[^/]\+$" | ~/scr/helper/colorOnce 35
     git --git-dir=$line/.git --work-tree=$line status -b -s
     echo
   done
@@ -67,7 +108,7 @@ find_dir() {
 find_string(){
   fd . --max-depth=1 --type f --one-file-system --hidden | sed "s/$/\:1/" |
     fzf --bind "change:reload(rg {q} --hidden --one-file-system -n --ignore-file=$HOME/.gitignore | fzy --show-matches={q} | head -100)" \
-    --preview "batrg {}"\
+    --preview "~/scr/helper/batrg {}"\
 }
 
 edit_find() {
@@ -79,7 +120,7 @@ edit_find() {
 
   tempfzfpath=`find_file $argPath`
   if [ -n "${tempfzfpath}" ]; then
-    $EDITOR $tempfzfpath
+    edit $tempfzfpath
   fi
 }
 
